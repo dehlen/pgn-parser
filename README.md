@@ -33,6 +33,44 @@ or
 2. Add pgn-bundle.js to your app bundle
 3. Execute `parse` function via JavascriptCore
 
+```swift
+struct PGNParser {
+    func parse(string: String) {
+        guard let bundle = Bundle.main.path(forResource: "pgn-bundle", ofType: "js") else { return }
+
+        do {
+            let source = try String(contentsOfFile: bundle)
+            let context = JSContext()
+            context?.exceptionHandler = { context, exception in
+                if let exceptionString = exception?.toString() {
+                    debugPrint("Error parsing PGN: \(exceptionString)")
+                }
+            }
+            
+            let window = JSValue(newObjectIn: context)
+            context?.setObject(window, forKeyedSubscript: "window" as NSString)
+            context?.evaluateScript(source)
+
+            context?.evaluateScript(source)
+
+            let parseFunction = window?.objectForKeyedSubscript("parsePgn")
+            let options = ["startRule": "game"]
+            let result = parseFunction?.call(withArguments: [string, options])
+            print(result?.toDictionary() ?? [:])
+        } catch {
+            debugPrint("Error parsing PGN: \(error)")
+            return
+        }
+    }
+}
+
+// Usage:
+let parser = PGNParser()
+parser.parse("pgn text")
+
+```
+
+
 ## How to use it (JS)?
 
 Look at the many test cases that show how to use it. Here is an example:
