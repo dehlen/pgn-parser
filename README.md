@@ -28,7 +28,12 @@ or
 
     npm i @mliebelt/pgn-parser --save
 
-## How to use it?
+### How to use it on iOS?
+1. Run build.sh
+2. Add pgn-bundle.js to your app bundle
+3. Execute `parse` function via JavascriptCore
+
+## How to use it (JS)?
 
 Look at the many test cases that show how to use it. Here is an example:
 
