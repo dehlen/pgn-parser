@@ -7047,7 +7047,14 @@
 
 },{}],2:[function(require,module,exports){
  const parser =  require('./pgn-parser.js')
- window.parsePgn = parser.parse
+ 
+ const parse = (pgn, options) => {
+    const result = parser.parse(pgn, options)
+    return JSON.stringify(result, null, 2)
+ }
+
+window.parsePgn = parser.parse
+window.parse = parse
 },{"./pgn-parser.js":3}],3:[function(require,module,exports){
 const parser =  require('./_pgn-parser.js')
 
